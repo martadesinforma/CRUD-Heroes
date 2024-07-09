@@ -1,3 +1,38 @@
-<p>layout-page works!</p>
-<router-outlet></router-outlet>  <!-- Podemos utilizar el componente <router-outlet></router-outlet> porque en el heroes.module.ts se ha importado el HeroesRoutingModule y el archivo heroes-routing.module.ts exporta el RouterModule -->
+
+<mat-sidenav-container fullscreen>
+
+  <mat-sidenav #sidevan mode="push" [ngStyle]="{width: '250px'}">
+    <mat-toolbar>
+      <span>Menú</span>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="sidevan.toggle()"><!-- el componente mat-sidevan tiene un metodo llamado toggle() que permite abrir y cerrar este menú  -->
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <mat-list-item *ngFor="let item of sidebarItems" [routerLink]="item.url" (click)="sidevan.toggle()"> <!-- el componente mat-sidevan tiene un metodo llamado toggle() que permite abrir y cerrar este menú  -->
+        <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+        {{item.label}}
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidevan.toggle()"><!-- el componente mat-sidevan tiene un metodo llamado toggle() que permite abrir y cerrar este menú  -->
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <button mat-button>Logout</button>
+  </mat-toolbar>
+
+
+  <div class="container">
+    <router-outlet></router-outlet>  <!-- Podemos utilizar el componente <router-outlet></router-outlet> porque en el heroes.module.ts se ha importado el HeroesRoutingModule y el archivo heroes-routing.module.ts exporta el RouterModule -->
+  </div>
+
+</mat-sidenav-container>
+
+
 
