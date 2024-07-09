@@ -1,0 +1,31 @@
+<!-- defino como quiero que se muestre la informacion heredada del padre -->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{hero.superhero}}</mat-card-title>
+    <mat-card-subtitle>{{hero.alter_ego}}</mat-card-subtitle>
+  </mat-card-header>
+
+
+  <mat-card-content class="mt-2">
+    <h4>{{hero.publisher}}</h4>
+    <p>
+      <strong>Primera aparición</strong>{{hero.first_appearance}}
+      <br>
+
+      <mat-chip-listbox ngSkipHydration>
+        <mat-chip *ngFor="let name of hero.characters.split(',') | slice:0:3"> <!-- para solo tener un maximo de 3 palabras del array de palabras que nos proporciona hero.characters y del que hemos eliminado las , -->
+          {{name}}
+        </mat-chip>
+      </mat-chip-listbox>
+    </p>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-actions>
+    <button mat-button mat-raised color="primary" [routerLink]="['/heroes/edit', hero.id]">
+      <mat-icon>edit</mat-icon>
+      Editar
+    </button>
+  </mat-card-actions>
+</mat-card>

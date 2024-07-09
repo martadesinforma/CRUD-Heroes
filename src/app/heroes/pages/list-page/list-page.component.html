@@ -1,6 +1,10 @@
+<h1>Listado de Héroes</h1>
+<mat-divider></mat-divider>
 
-<ul>
-  <li *ngFor="let hero of heroes">
-    {{hero.alter_ego}}
-  </li>
-</ul>
+
+<div class="grid bm-8 pt-2">
+  <div class="col-12 sm:col-4 mad:col-3 xl:col-2" *ngFor="let hero of heroes">
+    <heroes-hero-card [hero]="hero"></heroes-hero-card> <!-- donde se le agrega al hijo la informacion proveniente del padre. [hero] es el nombre de la propiedad escrita en el componente hijo CardComponent y "hero" es el valor que le está dando el padre a esa propiedad, escrito en list-page.component.ts-->
+  </div>
+</div>
+
