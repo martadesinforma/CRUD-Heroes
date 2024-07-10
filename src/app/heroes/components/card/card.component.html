@@ -13,7 +13,7 @@
       <br>
 
       <mat-chip-listbox ngSkipHydration>
-        <mat-chip *ngFor="let name of hero.characters.split(',') | slice:0:3"> <!-- para solo tener un maximo de 3 palabras del array de palabras que nos proporciona hero.characters y del que hemos eliminado las , -->
+        <mat-chip *ngFor="let name of hero.characters.split(',') | slice:0:3"> <!-- hero.characters es una cadena de texto que contiene una lista de nombres de personajes separados por comas. .split(',') convierte una cadena de texto en un array de nombres de personajes, usando la coma como delimitador. La coma se elimina en el proceso, separando la cadena en elementos individuales del array.slice:0:3 toma los primeros tres elementos del array resultante de hero.characters.split(',').-->
           {{name}}
         </mat-chip>
       </mat-chip-listbox>
@@ -23,9 +23,16 @@
   <mat-divider></mat-divider>
 
   <mat-card-actions>
-    <button mat-button mat-raised color="primary" [routerLink]="['/heroes/edit', hero.id]">
+    <button mat-button mat-raised color="primary" [routerLink]="['/heroes/edit', hero.id]"> <!-- [routerLink] es una directiva de Angular utilizada para vincular una ruta a un enlace como un botón. Este array define la ruta dinámica. La primera parte, '/heroes/edit', es una ruta fija. hero.id es una parte dinámica de la ruta permite que la URL incluya el ID del héroe específico. Este código genera un enlace que navega a una ruta como '/heroes/edit/1', donde 1 es el id del héroe actual. Si hero.id es 2, el enlace sería '/heroes/edit/2'.-->
       <mat-icon>edit</mat-icon>
       Editar
     </button>
+
+    <span class="spacer"></span>
+
+    <button mat-button mat-raised  [routerLink]="['/heroes', hero.id]">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+
   </mat-card-actions>
 </mat-card>

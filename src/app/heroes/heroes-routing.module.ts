@@ -14,9 +14,9 @@ const routes: Routes = [
     [
       {path: 'new-hero', component: NewPageComponent},
       {path: 'search', component: SearchPageComponent},
-      {path: 'edit/:id', component: NewPageComponent},
+      {path: 'edit/:id', component: NewPageComponent}, //ejemplo de ruta: http://localhost:4200/heroes/edit/dc-batman. :id: Este parámetro es un marcador de posición que Angular reemplaza dinámicamente con un valor real cuando se navega a esa ruta.
       {path: 'list', component: ListPageComponent},
-      {path: ':id', component: HeroPageComponent},
+      {path: ':id', component: HeroPageComponent}, //ejmplo de ruta: http://localhost:4200/heroes/dc-batman.    :id: Este parámetro es un marcador de posición que Angular reemplaza dinámicamente con un valor real cuando se navega a esa ruta.
       {path: '**', redirectTo: 'list'}, //cuando tengamos el componente vacio (localhost:4200/heroes) se va a mostrar como ruta hija list
 
     ]
