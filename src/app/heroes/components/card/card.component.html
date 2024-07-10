@@ -5,6 +5,8 @@
     <mat-card-subtitle>{{hero.alter_ego}}</mat-card-subtitle>
   </mat-card-header>
 
+  <!-- las imagenes tienen como nombre su mismo id, por ejemplo: dc-arrow.jpg, dc-arrow es el id de ese heroe en particular. -->
+  <img mat-card-image  [src]="hero | heroImage" [alt]="hero.superhero"> <!-- el uso de llaves cuadradas alrededor de un atributo permite que el valor del atributo sea dinámico y que Angular lo evalúe y actualice en tiempo real según los datos del componente. El valor de [src] va a ser una url de este tipo: assets/heroes/dc-batman.jpg o de este tipo: assets/no-image.png-->
 
   <mat-card-content class="mt-2">
     <h4>{{hero.publisher}}</h4>
