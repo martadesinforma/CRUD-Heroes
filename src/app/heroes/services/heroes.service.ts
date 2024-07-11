@@ -11,12 +11,14 @@ export class HeroesService {
 
   constructor(private http: HttpClient) { }
 
+
+  //método para traernos la info de todos los heroes en la pagina http://localhost:4200/heroes/list
   getHeroes():Observable<Hero[]> { //esta funcion regresa un Observable que va a estar emitiendo un arreglo de Hero
     return this.http.get<Hero[]>(`${this.baseUrl}/heroes`); //la peticion get me va ha regresar un arreglo de Hero
   }
 
 
-  //método para traernos la info de cada heroe
+  //método para traernos la info de cada heroe segun su id en cada pagina http://localhost:4200/heroes/id
   getHeroById(id:string):Observable<Hero|undefined> {//esta funcion regresa un Observable que va a estar emitiendo un Hero o  un undefined
     return this.http.get<Hero>(`${this.baseUrl}/heroes/${id}`) //la peticion get me va ha regresar un Hero
       .pipe( //El método pipe se usa para encadenar operadores que pueden manipular el Observable resultante. En este caso, Si ocurre un error durante la petición HTTP, catchError se activa y ejecuta la función proporcionada, y en vez de regresar un Observable que va a estar emitiendo un Hero, ahora el observable va a estar emitiendo undefined
@@ -24,4 +26,9 @@ export class HeroesService {
       )
   }
 
+
+  //método para crear el autocompletado de la pagina http://localhost:4200/heroes/search
+  getSuggestions(query: string):Observable<Hero[]> { //esta funcion regresa un Observable que va a estar emitiendo un arreglo de Hero
+    return this.http.get<Hero[]>(`${this.baseUrl}/heroes?q=${query}&_limit=6`); //la peticion get me va ha regresar un arreglo de Hero o un arreglo de Hero vacio si lo que escribimos no existe en la base de datos
+  }
 }
