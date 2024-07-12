@@ -1,8 +1,9 @@
 
+<!-- new-page.component.html: quiero enlazar este form con el formulario heroForm definido en el ts para eso escribo [formGroup]="heroForm" en el form y ahora en el lugar donde quiera enlazar cada propiedad escribo formControlName="superhero" (superhero es una de las propiedades del formulario del ts). Al enlazar cada propiedades de heroForm en mi form de html, lo que se consigue es que lo que escriba en los input directamente quede guardado como valores de cada propiedad de heroForm -->
+
 <h1>
-  Editar / Agregar
+  {{currentHero.id ? 'Editar' : 'Agregar'}} <!--  solo quiero que se muestre el boton de Editar cuando estemos en la pagina http://localhost:4200/heroes/edit/dc-batman, es decir, cuando estemos editando un heroe. Cuando estemos en la pagina http://localhost:4200/heroes/new-hero, es decir, cuando vayamos a crear un nuevo heroe,  quiero que se muestre Agregar-->
   héroe
-  <small>Superman</small>
 </h1>
 
 <mat-divider class="mb-2"></mat-divider>
@@ -11,7 +12,7 @@
   <div class="col-12 sm:col-6">
     <mat-card>
       <mat-card-content>
-        <div class="grid">
+        <form class="grid" [formGroup]="heroForm" (ngSubmit)="onSubmit()"> <!-- Cuando el formulario se envía (esto incluye cuando se presiona Enter en un campo de entrada dentro del formulario) el evento ngSubmit se dispara y llama al método onSubmit() en el componente. -->
 
           <mat-form-field class="col-12 sm:col-6">
             <mat-label>Super héroe</mat-label>
@@ -19,6 +20,7 @@
               matInput
               type="text"
               required
+              formControlName="superhero"
             />
           </mat-form-field>
 
@@ -28,6 +30,7 @@
               matInput
               type="text"
               required
+              formControlName="alter_ego"
             />
           </mat-form-field>
 
@@ -37,6 +40,7 @@
               matInput
               type="text"
               required
+              formControlName="first_appearance"
             />
           </mat-form-field>
 
@@ -46,27 +50,38 @@
               matInput
               type="text"
               required
+              formControlName="characters"
             />
           </mat-form-field>
 
           <mat-form-field class="col-12">
             <mat-label>Creador</mat-label>
-            <mat-select required="">
+            <mat-select required formControlName="publisher">
               <mat-option *ngFor="let publisher of publishers"
                 [value]="publisher.id">
                 {{ publisher.description }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
 
 
+          <mat-form-field class="col-12">
+            <mat-label>Alternative Image</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="alt_img"
+            />
+          </mat-form-field>
+        </form>
+
+        <!-- como el boton guardar es el que que quiero que envie la info esta fuera del form, tengo que escribir  (click)="onSubmit()". El evento onSubmit() se dispara solo cuando se hace clic en el botón específico. No se dispara al presionar Enter en un campo de entrada.-->
         <div class="flex justify-content-between">
-          <button mat-flat-button color="warn">
+          <button *ngIf="currentHero.id" mat-flat-button color="warn" (click)="onDeleteHero()"> <!-- solo quiero que se muestre el boton de borrar cuando estemos en la pagina http://localhost:4200/heroes/edit/dc-batman, es decir, cuando estemos editando un heroe. Cuando estemos en la pagina http://localhost:4200/heroes/new-hero, es decir, cuando vayamos a crear un nuevo heroe, no quiero que se muestre -->
             Borrar
           </button>
 
-          <button mat-flat-button color="primary">
+          <button mat-flat-button color="primary" (click)="onSubmit()">
             <mat-icon>save</mat-icon>
             Guardar
           </button>
@@ -79,7 +94,7 @@
 
   <div class="col-12 sm:col-6">
     <mat-card>
-      <img src="" alt="imagen del héroe" mat-card-image>
+      <img [src]="currentHero | heroImage" alt="imagen del héroe" mat-card-image> <!-- está utilizando el pipe para transformar la propiedad currentHero (tiene que ser un Hero) en una URL de imagen que se establece como el atributo src -->
     </mat-card>
   </div>
 </div>

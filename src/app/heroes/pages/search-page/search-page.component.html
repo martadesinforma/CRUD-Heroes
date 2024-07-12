@@ -6,7 +6,8 @@
     <mat-label>Buscador de héroes</mat-label>
     <input
       type="text"
-      matInput [formControl] ="searchInput"
+      matInput
+      [formControl] ="searchInput"
       (input) = 'searchHero()'
       [matAutocomplete]="auto"
       > <!--[formControl]="searchInput": vincula el FormControl denominado searchInput al elemento input. Los cambios en el input actualizarán el FormControl del .ts automáticamente.-->
