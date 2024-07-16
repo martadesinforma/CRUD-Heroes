@@ -27,7 +27,7 @@ export class AuthService {
 
 
 
-  //para que cuando la persona no esta autenticada no se cargue nada,  pero si esta autenticada y recarguemos la página no nos saque del usuario y no nos tengamos que volver a registrar
+  //La función checkAuthentication verifica si hay un token en el localStorage y, si existe, realiza una solicitud HTTP para obtener los datos del usuario, devolviendo un Observable que emite true si el usuario existe y false en caso contrario o si hay algún error.
   checkAuthentication(): Observable<boolean>{ //la función devolverá un Observable que emite valores de tipo boolean.
     if(!localStorage.getItem(`token`)) return of(false) //si el usuario no esta autenticado es porque no existe ningun token en el localStorage y entonces quiero que me retorne  un Observable que emite false
 
@@ -39,8 +39,6 @@ export class AuthService {
         map(user => !!user), //si el usuario existe necesito que me devuelva un booleano true por eso pongo !!user. Pero al estar el map dentro del pipe me va a devolver un observable que retorne un booleano, un un booleano en sí.
         catchError(err => of(false))
       )
-
-
   }
 
 

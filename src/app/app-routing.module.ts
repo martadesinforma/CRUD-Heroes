@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
+import { canActivateGuard, canMatchGuard } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,8 +9,12 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   },
   {
+    //Cuando un usuario intenta navegar a la ruta 'heroes', Angular evalúa los guards configurados (canActivate y canMatch). Basado en el valor emitido (true o false), el router decide si permite la navegación.
     path: 'heroes',
     loadChildren: () => import('./heroes/heroes.module').then(m => m.HeroesModule),
+    //el router de Angular se suscribe automáticamente al Observable devuelto por los guards cuando estos son configurados en las rutas en el archivo app-routing.module.ts:
+    canActivate: [canActivateGuard], //Anclamos la función del canActive
+    canMatch: [canMatchGuard] //Anclamos la función del canMatch
   },
   {
     path: '404',
