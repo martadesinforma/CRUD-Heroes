@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environments } from '../../../environments/environments';
 import { User } from '../interfaces/user.interface';
-import { Observable, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({providedIn: 'root'}) //Si se establece en 'root', el servicio será registrado en el inyector de la raíz de la aplicación. Esto hace que el servicio esté disponible de manera global y se comparta una única instancia en toda la aplicación.
 export class AuthService {
@@ -24,6 +24,26 @@ export class AuthService {
         tap(user => localStorage.setItem('token', user.id.toString()) )//quiero grabar el ID del usuario en el localStorage con el nombre de token
         )
   }
+
+
+
+  //para que cuando la persona no esta autenticada no se cargue nada,  pero si esta autenticada y recarguemos la página no nos saque del usuario y no nos tengamos que volver a registrar
+  checkAuthentication(): Observable<boolean>{ //la función devolverá un Observable que emite valores de tipo boolean.
+    if(!localStorage.getItem(`token`)) return of(false) //si el usuario no esta autenticado es porque no existe ningun token en el localStorage y entonces quiero que me retorne  un Observable que emite false
+
+    const token = localStorage.getItem('token');
+
+    return this.http.get<User>(`${this.baseUrl}/users/1`)
+      .pipe(
+        tap(user => this.user = user), //el tap no hace modificaciones en el flujo
+        map(user => !!user), //si el usuario existe necesito que me devuelva un booleano true por eso pongo !!user. Pero al estar el map dentro del pipe me va a devolver un observable que retorne un booleano, un un booleano en sí.
+        catchError(err => of(false))
+      )
+
+
+  }
+
+
 
   //para limpiar información
   logout() {
