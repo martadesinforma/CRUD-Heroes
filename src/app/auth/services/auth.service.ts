@@ -4,7 +4,7 @@ import { environments } from '../../../environments/environments';
 import { User } from '../interfaces/user.interface';
 import { Observable, tap } from 'rxjs';
 
-@Injectable({providedIn: 'root'})
+@Injectable({providedIn: 'root'}) //Si se establece en 'root', el servicio será registrado en el inyector de la raíz de la aplicación. Esto hace que el servicio esté disponible de manera global y se comparta una única instancia en toda la aplicación.
 export class AuthService {
 
   private baseUrl = environments.baseUrl;
@@ -23,6 +23,12 @@ export class AuthService {
         tap(user => this.user = user), //el tap no modifica el flujo
         tap(user => localStorage.setItem('token', user.id.toString()) )//quiero grabar el ID del usuario en el localStorage con el nombre de token
         )
+  }
+
+  //para limpiar información
+  logout() {
+    this.user = undefined; //para eliminar la info que estaba guardada en user
+    localStorage.clear(); //para eliminar la info que estaba guardada en el localStorage
   }
 
 
