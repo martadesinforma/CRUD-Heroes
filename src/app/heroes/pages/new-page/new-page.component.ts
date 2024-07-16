@@ -65,9 +65,9 @@ export class NewPageComponent implements OnInit {
     if (this.currentHero.id) {
       this.heroesService.updateHero(this.currentHero) //me tengo que suscribir al observable que me devuelve la funcion
         .subscribe(hero => {
-           this.snackbar.open(`${hero.superhero} actualizado!`, 'done', {
-            duration:2500,
-           })
+          this.snackbar.open(`${hero.superhero} actualizado!`, 'done', {
+            duration: 2500,
+          })
         });
       return;
     }
@@ -76,27 +76,27 @@ export class NewPageComponent implements OnInit {
       .subscribe(hero => {
         this.router.navigate(['/heroes/edit', hero.id]); //al darle al boton guardar me redirige  a una url de este tipo: http://localhost:4200/heroes/edit/_qmiYCy. "id": "_qmiYCy", es el id que me ha creado para ese nuevo heroe
         this.snackbar.open(`${hero.superhero} creado!`, 'done', {
-          duration:2500,
-         })
+          duration: 2500,
+        })
       }
       )
   }
 
   onDeleteHero() {
-    if( !this.currentHero.id) throw Error ('Hero id is required');
+    if (!this.currentHero.id) throw Error('Hero id is required'); // Verifica si el héroe actual tiene un ID
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: this.heroForm.value
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {  // Abre un cuadro de diálogo de confirmación
+      data: this.heroForm.value // Pasa los valores actuales del formulario (this.heroForm.value) como datos al cuadro de diálogo.
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) return;
+    dialogRef.afterClosed().subscribe(result => { // Se suscribe al observable que se emite cuando el cuadro de diálogo se cierra
+      if (!result) return;   // Si el resultado es falso (el usuario canceló), no hace nada
 
-      this.heroesService.deleteHeroById(this.currentHero.id)
-      .subscribe(wasDeleted => {
-        if(wasDeleted) //si nos devuelve un true, entonces voy a redirigir a la pagina de heroes
-          this.router.navigate(['/heroes'])
-      })
+      this.heroesService.deleteHeroById(this.currentHero.id) //si el resultado es verdadero, llama al servicio para eliminar el héroe por su ID
+        .subscribe(wasDeleted => {
+          if (wasDeleted) //si nos devuelve un true porque la eliminación fue exitosa, entonces voy a redirigir a la pagina de heroes
+            this.router.navigate(['/heroes'])
+        })
 
     });
   }
