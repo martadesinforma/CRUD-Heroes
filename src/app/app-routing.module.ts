@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
-import { canActivateGuard, canMatchGuard } from './auth/guards/auth.guard';
+import { canActivateAuthGuard, canMatchAuthGuard } from './auth/guards/auth.guard';
+import { canActivateHeroesGuard, canMatchHeroesGuard } from './auth/guards/heroes.guard';
 
 const routes: Routes = [
   {
+     //Cuando un usuario intenta navegar a la ruta 'auth', Angular evalúa los guards configurados (canActivate y canMatch). Basado en el valor emitido (true o false), el router decide si permite la navegación.
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    //el router de Angular se suscribe automáticamente al Observable devuelto por los guards cuando estos son configurados en las rutas en el archivo app-routing.module.ts:
+    canActivate: [canActivateAuthGuard], //Anclamos la función del canActive
+    canMatch: [canMatchAuthGuard] //Anclamos la función del canMatch
+
   },
   {
     //Cuando un usuario intenta navegar a la ruta 'heroes', Angular evalúa los guards configurados (canActivate y canMatch). Basado en el valor emitido (true o false), el router decide si permite la navegación.
     path: 'heroes',
     loadChildren: () => import('./heroes/heroes.module').then(m => m.HeroesModule),
     //el router de Angular se suscribe automáticamente al Observable devuelto por los guards cuando estos son configurados en las rutas en el archivo app-routing.module.ts:
-    canActivate: [canActivateGuard], //Anclamos la función del canActive
-    canMatch: [canMatchGuard] //Anclamos la función del canMatch
+    canActivate: [canActivateHeroesGuard], //Anclamos la función del canActive
+    canMatch: [canMatchHeroesGuard] //Anclamos la función del canMatch
   },
   {
     path: '404',
