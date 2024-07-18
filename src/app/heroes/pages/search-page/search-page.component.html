@@ -8,7 +8,7 @@
       type="text"
       matInput
       [formControl] ="searchInput"
-      (input) = 'searchHero()'
+      (input) = "searchHero()"
       [matAutocomplete]="auto"
       > <!--[formControl]="searchInput": vincula el FormControl denominado searchInput al elemento input. Los cambios en el input actualizarán el FormControl del .ts automáticamente.-->
       <!--(input) = 'searchHero()':  el método searchHero() se debe llamar cada vez que el evento input se dispara. Es decir, cada vez que el usuario escribe o cambia el contenido del campo de entrada.  -->
@@ -25,5 +25,30 @@
   </mat-form-field>
 
 
-  {{selectedHero | json}}
+
+<!-- defino como quiero que se muestre la informacion de selectedHero solo si selectedHero tiene un valor, sino nada de esto se va a mostrar -->
+<mat-card *ngIf="selectedHero">
+  <mat-card-header>
+    <mat-card-title>{{selectedHero.superhero}}</mat-card-title>
+    <mat-card-subtitle>{{selectedHero.alter_ego}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <!-- las imagenes tienen como nombre su mismo id, por ejemplo: dc-arrow.jpg, dc-arrow es el id de ese heroe en particular. -->
+  <img mat-card-image  [src]="selectedHero | heroImage" [alt]="selectedHero.superhero"> <!-- el uso de llaves cuadradas alrededor de un atributo permite que el valor del atributo sea dinámico y que Angular lo evalúe y actualice en tiempo real según los datos del componente. El valor de [src] va a ser una url de este tipo: assets/heroes/dc-batman.jpg o de este tipo: assets/no-image.png-->
+
+  <mat-card-content class="mt-2">
+    <h4>{{selectedHero.publisher}}</h4>
+    <p>
+      <strong>Primera aparición</strong>{{selectedHero.first_appearance}}
+      <br>
+
+      <mat-chip-listbox ngSkipHydration>
+        <mat-chip *ngFor="let name of selectedHero?.characters | slice:0:3"> <!-- hero.characters es una cadena de texto que contiene una lista de nombres de personajes separados por comas. .split(',') convierte una cadena de texto en un array de nombres de personajes, usando la coma como delimitador. La coma se elimina en el proceso, separando la cadena en elementos individuales del array.slice:0:3 toma los primeros tres elementos del array resultante de hero.characters.split(',').-->
+          {{name}}
+        </mat-chip>
+      </mat-chip-listbox>
+    </p>
+  </mat-card-content>
+</mat-card>
+
 </div>

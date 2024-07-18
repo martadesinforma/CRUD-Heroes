@@ -18,10 +18,15 @@ export class SearchPageComponent {
   constructor(private heroesService: HeroesService) {}
 
   searchHero() {
+    if(this.searchInput.value === '') {
+      this.selectedHero = undefined
+      return
+    }
     const value: string = this.searchInput.value || ''; //al principio cuando no hayamos buscado nada en el input el valor es un ''
 
     this.heroesService.getSuggestions(value)
       .subscribe(heroes =>this.heroes = heroes)
+
   }
 
   onSelectedOption(event: MatAutocompleteSelectedEvent): void {
